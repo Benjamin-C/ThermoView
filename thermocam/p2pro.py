@@ -3,7 +3,7 @@ import numpy as np
 import threading
 
 class P2Pro():
-    def __init__(self, device: str = None, rotation: int = 0):
+    def __init__(self, device: str = None, rotation: int = 0, onFrame: callable = None):
         self.__device: str = device
         self.rotation: int = 0
         self.imdata: np.ndarray = None
@@ -12,6 +12,8 @@ class P2Pro():
         self.__readyEvent: threading.Event = threading.Event()
         self.__running: bool = False
         self.frameListeners: list = []
+        if onFrame is not None:
+            self.frameListeners.append(onFrame)
         self.framenum = 0
 
     def __enter__(self):
